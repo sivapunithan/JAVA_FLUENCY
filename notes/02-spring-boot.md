@@ -95,6 +95,38 @@ and hard to find; one `@ConfigurationProperties` class centralizes a related
 settings group into a single, type-safe, testable object. Directly relevant
 to the Week 2 AI-backend project's rate-limiting config.
 
+## Q4 — request lifecycle (answered 2026-10-24)
+
+**The one-sentence version — this is the actual interview answer, memorize
+this, not component names:**
+> One request comes in. One central thing receives it, figures out which of
+> your methods should handle it, pulls out the data that method needs (path
+> variables, query params, JSON body), calls your method, then converts
+> whatever your method returns back into JSON for the response.
+
+That sentence alone is a complete, correct, 2-3 YOE-level answer. No
+component names required.
+
+**Optional extra-credit layer** (only if an interviewer pushes deeper —
+not something to memorize, just know it exists and what each piece's *job*
+is, in plain words):
+- The central receiver is called `DispatcherServlet` — one instance handles
+  every request in the whole app (the "front controller" pattern).
+- Something figures out *which* method to call, based on the URL + HTTP verb.
+- Something else actually calls that method, and fills in its parameters
+  (`@PathVariable`, `@RequestParam`, `@RequestBody`).
+- Something converts JSON ↔ Java objects, both directions — incoming request
+  body into your method's parameter object, and your method's return value
+  back into the JSON response.
+- All three of the above are pluggable/replaceable, which is why Spring MVC
+  can be extended with custom format support without touching the central
+  receiver.
+
+Named versions if ever needed: `HandlerMapping` (which method), `HandlerAdapter`
+(calls it, resolves its arguments), `HttpMessageConverter` (JSON ↔ Java, e.g.
+Jackson). These names are not worth memorizing on their own — the *job* each
+one does matters, the label doesn't.
+
 ## Hands-on (assigned, not yet confirmed done)
 Add `app.demo.name`/`app.demo.retries` to `application.yaml`, write a
 `@ConfigurationProperties(prefix = "app.demo")` class, inject it, print both

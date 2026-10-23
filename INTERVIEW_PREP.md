@@ -56,6 +56,17 @@ and where interviewers have specifically adjusted questions to probe for that.
 5. A 3-line "problem → cause → fix" summary — this is the memorized interview answer.
 6. One rapid mock-interview-style question, judged on a spoken-style answer.
 
+**Memorization calibration (added 2026-10-24, per Punithan's explicit
+feedback — he can't retain a pile of component names after a day, and
+doesn't need to).** Every mechanism gets a **one-sentence, jargon-free
+version first** — that sentence alone must be a complete, correct 2-3 YOE
+interview answer on its own. Exact internal component/class names
+(`HandlerMapping`, `HandlerAdapter`, etc) go in a clearly separate "optional
+extra credit" section — useful only if an interviewer pushes deeper, never
+something Punithan is expected to recall unprompted. What matters is
+explaining *what something does, in his own words* — not reciting Spring's
+internal class names.
+
 Say "next" to advance, "mock" for a rapid-fire review of everything covered so far.
 
 ---
