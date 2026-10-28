@@ -1,10 +1,20 @@
-# Interview Prep Plan — 2-3 YOE Spring Boot Interview (next week)
+# Interview Prep Plan — 2-3 YOE Spring Boot / Product-Company Transition
 
-**This supersedes the open-ended pace in [GOALS.md](GOALS.md) until the
-interview is done.** GOALS.md still holds the overall project purpose and
-ground rules; this file is the active, detailed, day-to-day plan right now.
-Target depth throughout: 2-3 years of experience — skip deep internals only
-senior roles get asked (detailed GC tuning, advanced sharding, JVM internals).
+**Updated 2026-10-28 after real market research** (see
+[notes/00-market-research.md](notes/00-market-research.md) — four parallel
+research agents, findings cross-checked). The original interview this file
+was built for already happened; this is now a genuine 3-6 month
+product-company transition plan, not a cram session. Target depth
+throughout: 2-3 years of experience — skip deep internals only senior roles
+get asked (detailed GC tuning, advanced sharding, JVM internals).
+
+**Honest framing from the research**: the documented gap to a product-company
+hire is DSA fluency + system design reasoning + resume framing — not Spring
+Boot knowledge specifically. This plan covers the Spring/Java depth
+thoroughly, but DSA itself is intentionally out of scope here (tracked
+separately in Punithan's own DSA repo, by his explicit choice) — flagged
+honestly rather than silently ignored, since the research doesn't support
+treating it as optional for this goal.
 
 ## Why this order, and why it matters in the AI era
 
@@ -78,6 +88,29 @@ explaining *what something does, in his own words* — not reciting Spring's
 internal class names.
 
 Say "next" to advance, "mock" for a rapid-fire review of everything covered so far.
+
+---
+
+## Topic 0 — Resume reframing (added 2026-10-28, from market research)
+
+**Why this is its own topic, not an afterthought**: the research named this
+as an explicit, applied filter — services-company resume bullets read as
+"assigned tickets," product-company recruiters scan for ownership, scale,
+and decisions made. This is fixable in a single focused session and directly
+raises the odds of getting *to* the interview stage at all, independent of
+how well Topics 1-7 go.
+
+**The work**: rewrite the resume bullets for RBL Bank (procurement/GRN/AP
+platform), Wells Fargo (asset management, ServiceNow integration,
+optimistic/pessimistic locking), and Amagi (Delegation of Authority module)
+away from task-completion language and toward: what scale was involved
+(data volume, request volume, team size), what trade-off or design decision
+Punithan specifically made (not just implemented), and what the measurable
+outcome was (performance improvement, bug reduction, latency, correctness
+under concurrency). Same treatment for the personal projects (Kafka
+streaming app, ticket-booking locking project).
+
+**Not yet started.**
 
 ---
 
@@ -198,7 +231,8 @@ Prep for a clean, structured walkthrough of: the RBL Bank procurement/GRN/AP
 platform, the Wells Fargo asset management + ServiceNow integration +
 optimistic/pessimistic locking work, the Amagi Delegation of Authority
 module, and the personal projects (event-driven streaming app with Kafka/API
-Gateway, ticket-booking app with locking strategies).
+Gateway, ticket-booking app with locking strategies). Uses the reframed
+bullets from Topic 0 as the actual script for this walkthrough.
 
 Then a basic system design walkthrough using a **wallet app** as the running
 example: caching (what to cache, cache invalidation triggers), idempotency
@@ -206,6 +240,20 @@ keys (preventing double-charges on retry — this is the same mechanism a
 safe LLM-calling backend needs for retrying a partially-failed call),
 rate limiting (token bucket at a conceptual level), and where a lock
 (optimistic vs pessimistic) is actually needed vs where it's overkill.
+
+**Kafka-specific (added 2026-10-28, confirmed recurring at this level by
+market research — direct hit for the existing Kafka microservices resume
+project)**:
+- Delivery guarantees: at-least-once is the norm; "exactly-once" doesn't
+  automatically extend to an external DB/payment write — the business logic
+  itself has to be idempotent, the broker can't guarantee that for you.
+- Listener concurrency matched to partition count, explicit `AckMode`
+  configuration, dead-letter topics instead of infinite retry loops.
+- **The outbox pattern** — atomically combining a DB write with publishing
+  an event (so you never commit the DB change without the event firing, or
+  vice versa) — repeatedly cited as the question that bridges "DB knowledge"
+  and "Kafka knowledge" at mid-level. Worth having a clean, rehearsed
+  explanation of this specifically.
 
 ---
 
@@ -219,4 +267,12 @@ out directly.
 *(empty — populated after each topic's grading)*
 
 ## Progress
-- **Topic 1 — Spring Core**: Level 1 in progress (4 questions asked, awaiting answers).
+- **Topic 0 — Resume reframing**: not yet started.
+- **Topic 1 — Spring Core**: closed (see notes/01-spring-core.md).
+- **Topic 2 — Spring Boot**: in progress. Auto-config, starters, config
+  binding, request lifecycle, `@ControllerAdvice` covered (see
+  notes/02-spring-boot.md). Still open: Actuator, and the hands-on exercises
+  (table-name fix done; exception handler, REST endpoint, config-binding
+  demo not yet built — shifted to code-review format per Punithan's request,
+  2026-10-28, since he doesn't want to hand-type every exercise).
+- **Topics 3-7**: not yet started.
