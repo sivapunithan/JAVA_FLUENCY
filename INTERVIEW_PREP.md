@@ -43,7 +43,17 @@ and where interviewers have specifically adjusted questions to probe for that.
 1. 3-4 questions at the current level, asked *before* any explanation.
 2. Blunt grading — right / wrong / missing — then the correct mechanism,
    explained with real technical depth, no analogies at this stage.
-3. **Every mechanism explained gets framed with the 5W before any code**:
+3. **Language/framework-agnostic framing first (added 2026-10-28, per
+   Punithan's explicit request).** Before the Spring-specific explanation,
+   state the general backend concept that's true regardless of language or
+   framework — e.g. "intercept a call to run code before/after it" (not
+   "Spring AOP proxy"), "one entry point routes to a handler and serializes
+   the response" (not "DispatcherServlet"). Spring's specific annotations and
+   class names are then introduced as *one implementation* of that general
+   concept, so the knowledge transfers if Punithan ever works in a different
+   stack (Node/Express, Python/FastAPI, Go). This is on top of, not instead
+   of, the 5W framing and the one-sentence-first calibration below.
+4. **Every mechanism explained gets framed with the 5W before any code**:
    - **What** it actually is.
    - **Why** it exists / what problem it solves.
    - **Who** it applies to (which kind of class/annotation/situation).
@@ -51,10 +61,10 @@ and where interviewers have specifically adjusted questions to probe for that.
    - **Where** it shows up as a real bug/failure in practice.
    This is non-negotiable per Punithan's explicit feedback (2026-10-22) — do
    not jump straight to code/exercises without this framing first.
-4. One small hands-on exercise in this project, run and observed — where
+5. One small hands-on exercise in this project, run and observed — where
    relevant, break something on purpose (N+1, mutable HashMap key), then fix it.
-5. A 3-line "problem → cause → fix" summary — this is the memorized interview answer.
-6. One rapid mock-interview-style question, judged on a spoken-style answer.
+6. A 3-line "problem → cause → fix" summary — this is the memorized interview answer.
+7. One rapid mock-interview-style question, judged on a spoken-style answer.
 
 **Memorization calibration (added 2026-10-24, per Punithan's explicit
 feedback — he can't retain a pile of component names after a day, and
